@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { DAppProvider } from '@usedapp/core'
 
 import App from './app'
 import './index.css'
@@ -7,7 +8,9 @@ import reportWebVitals from './reportWebVitals'
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <DAppProvider config={{}}>
+      <App />
+    </DAppProvider>
   </React.StrictMode>,
   document.getElementById('root'),
 )
