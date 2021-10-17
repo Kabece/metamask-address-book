@@ -68,6 +68,7 @@ module.exports = {
     'react/require-default-props': 'off',
     'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
     'react/no-multi-comp': 'off',
+    'react/jsx-fragments': ['error', 'element'],
 
     // Eslint rules to be disabled while the respective TS rules are enabled to avoid conflicts
     'no-unused-vars': 'off',

@@ -1,0 +1,17 @@
+.sign-in {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10rem;
+}
+
+.sign-in--title {
+  font-weight: 400;
+  font-size: 2em;
+}
+
+.sign-in--text {
+  font-weight: 300;
+  font-size: 1.2em;
+  text-align: center;
+}

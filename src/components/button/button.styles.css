@@ -1,0 +1,28 @@
+.btn {
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 15px;
+  padding: 0.5em 5em;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn--primary {
+  background-color: #f15a29;
+  border-color: #f15a29;
+  color: white;
+}
+
+.btn--secondary {
+  background-color: #4d6aa7;
+  border-color: #4d6aa7;
+  color: white;
+}
+
+.btn--tertiary {
+  background-color: white;
+  border-color: #f15a29;
+  color: #f15a29;
+}
