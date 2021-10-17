@@ -6,7 +6,7 @@ type ActionType = 'primary' | 'secondary' | 'tertiary'
 
 interface Props {
   readonly label: string
-  readonly actionType: ActionType
+  readonly actionType?: ActionType
   readonly onClick: (event: MouseEvent) => void
 }
 

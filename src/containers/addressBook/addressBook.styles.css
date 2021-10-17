@@ -1,0 +1,22 @@
+.address-book {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 5rem;
+  background-color: #e6e6e6;
+}
+
+.address-book--left {
+  padding-right: 3em;
+  margin: 2em 0;
+  border-right: 1px solid black;
+}
+
+.address-book--right {
+  margin: 2em 0;
+  height: 100%;
+}
+
+.work-area-placeholder {
+  font-weight: 300;
+}

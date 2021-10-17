@@ -1,0 +1,45 @@
+.contact-list--header {
+  font-weight: 300;
+  font-size: 2em;
+}
+
+.contact-list--new-contact {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  margin-left: 0.5em;
+  font-weight: 300;
+}
+
+.contact-list--new-contact:hover {
+  cursor: pointer;
+}
+
+.contact-list--new-contact > div:first-child {
+  margin-right: 0.7em;
+  font-size: 3em;
+  font-weight: 100;
+}
+
+.contact-card {
+  display: flex;
+  align-items: center;
+  margin: 1em 0;
+}
+
+.contact-card--initials {
+  background-color: #8a96aa;
+  border-radius: 45px;
+  margin-right: 1em;
+  width: 3em;
+  height: 3em;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-card--name {
+  font-weight: 300;
+}

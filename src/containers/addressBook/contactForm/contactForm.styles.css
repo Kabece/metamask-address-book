@@ -1,0 +1,33 @@
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form--input {
+  display: flex;
+  flex-direction: column;
+  margin: 1em 0;
+}
+
+.contact-form--input > input {
+  background-color: #f6f6f6;
+  border-radius: 15px;
+  border-width: 0;
+  width: 20em;
+  height: 2em;
+  margin-top: 0.5em;
+}
+
+.contact-form--input > span {
+  margin-left: 0.5em;
+}
+
+.contact-form--header {
+  font-weight: 300;
+}
+
+.contact-form--container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}

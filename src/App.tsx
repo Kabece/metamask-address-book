@@ -1,15 +1,13 @@
-import * as React from 'react'
 import { useEthers } from '@usedapp/core'
 
 import SignIn from 'src/containers/signIn/signIn.container'
+import AddressBook from 'src/containers/addressBook/addressBook.container'
 
 function App(): JSX.Element {
   const { account } = useEthers()
   // const etherBalance = useEtherBalance(account)
 
-  return (
-    <React.Fragment>{account ? <div>YOOO</div> : <SignIn />}</React.Fragment>
-  )
+  return <div className="main">{account ? <AddressBook /> : <SignIn />}</div>
 
   // return (
   //   <div>
