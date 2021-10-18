@@ -15,9 +15,17 @@ code {
     monospace;
 }
 
-h1 {
+h1,
+h2 {
   font-weight: 300;
+}
+
+h1 {
   font-size: 1.5em;
+}
+
+h2 {
+  font-size: 1.2em;
 }
 
 input::-webkit-outer-spin-button,

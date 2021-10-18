@@ -7,6 +7,13 @@ import type { Contact } from './contactsList/contactsList.presenter'
 
 import './addressBook.styles.css'
 
+const sortAlphabetically = (a: Contact, b: Contact) =>
+  a.name.localeCompare(b.name)
+
+const filterOutCurrentContact = (currentContact?: Contact) => (
+  parsedContact: Contact,
+) => parsedContact.name !== currentContact?.name
+
 type Mode = 'add' | 'edit' | 'transaction' | 'placeholder'
 
 const AddressBook = (): JSX.Element => {
@@ -26,6 +33,7 @@ const AddressBook = (): JSX.Element => {
         <ContactsList
           contacts={parsedContacts}
           onAddNewContact={() => {
+            setSelectedContact(undefined)
             setMode('add')
           }}
           onSelectContact={(contact: Contact) => {
@@ -41,7 +49,43 @@ const AddressBook = (): JSX.Element => {
             onSave={(contact: Contact) => {
               localStorage.setItem(
                 'contacts',
-                JSON.stringify([...parsedContacts, contact]),
+                JSON.stringify(
+                  [...parsedContacts, contact].sort(sortAlphabetically),
+                ),
+              )
+              setMode('placeholder')
+            }}
+          />
+        )}
+
+        {mode === 'edit' && (
+          <ContactForm
+            isEditMode
+            contact={selectedContact}
+            onSave={(contact: Contact) => {
+              localStorage.setItem(
+                'contacts',
+                JSON.stringify(
+                  [
+                    ...parsedContacts.filter(
+                      filterOutCurrentContact(selectedContact),
+                    ),
+                    contact,
+                  ].sort(sortAlphabetically),
+                ),
+              )
+              setMode('placeholder')
+            }}
+            onDelete={() => {
+              localStorage.setItem(
+                'contacts',
+                JSON.stringify(
+                  [
+                    ...parsedContacts.filter(
+                      filterOutCurrentContact(selectedContact),
+                    ),
+                  ].sort(sortAlphabetically),
+                ),
               )
               setMode('placeholder')
             }}
@@ -49,7 +93,12 @@ const AddressBook = (): JSX.Element => {
         )}
 
         {mode === 'transaction' && selectedContact && (
-          <TransactionForm contact={selectedContact} />
+          <TransactionForm
+            contact={selectedContact}
+            onEditContact={() => {
+              setMode('edit')
+            }}
+          />
         )}
 
         {mode === 'placeholder' && (

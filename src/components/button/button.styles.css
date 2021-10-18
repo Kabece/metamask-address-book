@@ -3,6 +3,10 @@
   border-style: solid;
   border-radius: 15px;
   padding: 0.5em 5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #606776;
 }
 
 .btn:hover {
@@ -25,6 +29,13 @@
   background-color: white;
   border-color: #f15a29;
   color: #f15a29;
+}
+
+.btn--link {
+  background: none;
+  border: none;
+  border-radius: 0;
+  padding: 0;
 }
 
 .btn_disabled {

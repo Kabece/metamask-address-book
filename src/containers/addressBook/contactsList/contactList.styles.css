@@ -5,12 +5,11 @@
 }
 
 .contact-list--new-contact {
-  background: none;
-  border: none;
   display: flex;
   align-items: center;
-  margin-left: 0.5em;
+  width: 100%;
   font-weight: 300;
+  margin-left: 0.6em;
 }
 
 .contact-list--new-contact:hover {
@@ -18,7 +17,7 @@
 }
 
 .contact-list--new-contact > div:first-child {
-  margin-right: 0.7em;
+  margin-right: 0.55em;
   font-size: 3em;
   font-weight: 100;
 }
@@ -42,4 +41,8 @@
 .contact-list--contacts {
   overflow: auto;
   height: 40vh;
+}
+
+.contact-list--contacts > button {
+  margin: 0.6em 0;
 }

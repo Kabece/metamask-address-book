@@ -11,9 +11,10 @@ import './transactionForm.styles.css'
 
 interface Props {
   readonly contact: Contact
+  readonly onEditContact: () => void
 }
 
-const TransactionForm = ({ contact }: Props): JSX.Element => {
+const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
   const [amount, setAmount] = React.useState(0)
   const [isMining, setIsMining] = React.useState(false)
   const { sendTransaction, state } = useSendTransaction()
@@ -27,12 +28,19 @@ const TransactionForm = ({ contact }: Props): JSX.Element => {
 
   return (
     <div className="transaction-form">
-      <h1>Send to {contact.name}</h1>
+      <div className="transaction-form--contact-data">
+        <h1>Send to {contact.name}</h1>
+        <div className="transaction-form--address">{contact.address}</div>
 
-      <AvatarPlaceholder name={contact.name} />
-
-      <div className="transaction-form--address">{contact.address}</div>
-
+        <AvatarPlaceholder name={contact.name} />
+        <Button
+          actionType="link"
+          onClick={() => {
+            onEditContact()
+          }}>
+          edit contact
+        </Button>
+      </div>
       <form
         onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault()
@@ -49,7 +57,6 @@ const TransactionForm = ({ contact }: Props): JSX.Element => {
         />
 
         <Button
-          label="Send"
           actionType="primary"
           isDisabled={isMining}
           onClick={() => {
@@ -58,8 +65,9 @@ const TransactionForm = ({ contact }: Props): JSX.Element => {
               to: contact.address,
               value: utils.parseEther(amount.toString()),
             })
-          }}
-        />
+          }}>
+          Send
+        </Button>
       </form>
 
       {isMining && (

@@ -1,18 +1,18 @@
-import { MouseEvent } from 'react'
+import * as React from 'react'
 
 import './button.styles.css'
 
-type ActionType = 'primary' | 'secondary' | 'tertiary'
+type ActionType = 'primary' | 'secondary' | 'tertiary' | 'link'
 
 interface Props {
-  readonly label: string
+  readonly children: React.ReactNode
   readonly actionType?: ActionType
   readonly isDisabled?: boolean
-  readonly onClick: (event: MouseEvent) => void
+  readonly onClick: (event: React.MouseEvent) => void
 }
 
 const Button = ({
-  label,
+  children,
   actionType = 'primary',
   isDisabled,
   onClick,
@@ -22,7 +22,7 @@ const Button = ({
     onClick={onClick}
     type="button"
     disabled={isDisabled}>
-    {label}
+    {children}
   </button>
 )
 

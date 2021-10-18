@@ -21,12 +21,12 @@ const SignIn = (): JSX.Element => {
         Connect yout wallet to begin.
       </p>
       <Button
-        label="Connect Wallet"
         actionType="primary"
         onClick={() => {
           activateBrowserWallet()
-        }}
-      />
+        }}>
+        Connect Wallet
+      </Button>
     </section>
   )
 }

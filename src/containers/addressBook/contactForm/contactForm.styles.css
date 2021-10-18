@@ -7,3 +7,11 @@
   display: flex;
   flex-direction: column;
 }
+
+.contact-form--form--actions > button {
+  width: 100%;
+}
+
+.contact-form--form--actions > button:first-of-type {
+  margin-bottom: 1em;
+}
