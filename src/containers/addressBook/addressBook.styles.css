@@ -3,17 +3,17 @@
   justify-content: space-around;
   align-items: center;
   margin-top: 5rem;
-  background-color: #e6e6e6;
+  padding: 2em 2em;
+  /* height: 100%; */
 }
 
 .address-book--left {
-  padding-right: 3em;
-  margin: 2em 0;
+  padding-right: 1.5em;
   border-right: 1px solid black;
+  height: 100%;
 }
 
 .address-book--right {
-  margin: 2em 0;
   height: 100%;
 }
 

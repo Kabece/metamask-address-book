@@ -2,12 +2,19 @@ import * as React from 'react'
 
 import ContactsList from './contactsList/contactsList.presenter'
 import ContactForm from './contactForm/contactForm.presenter'
+import TransactionForm from './transactionForm/transactionForm.container'
 import type { Contact } from './contactsList/contactsList.presenter'
 
 import './addressBook.styles.css'
 
+type Mode = 'add' | 'edit' | 'transaction' | 'placeholder'
+
 const AddressBook = (): JSX.Element => {
-  const [isAddingNewContact, setIsAddingNewContact] = React.useState(false)
+  const [mode, setMode] = React.useState<Mode>('placeholder')
+  const [selectedContact, setSelectedContact] = React.useState<
+    Contact | undefined
+  >()
+
   const storedContacts = localStorage.getItem('contacts')
   const parsedContacts = storedContacts
     ? (JSON.parse(storedContacts) as Contact[])
@@ -19,25 +26,33 @@ const AddressBook = (): JSX.Element => {
         <ContactsList
           contacts={parsedContacts}
           onAddNewContact={() => {
-            setIsAddingNewContact(true)
+            setMode('add')
+          }}
+          onSelectContact={(contact: Contact) => {
+            setSelectedContact(contact)
+            setMode('transaction')
           }}
         />
       </div>
 
       <div className="address-book--right">
-        {isAddingNewContact && (
+        {mode === 'add' && (
           <ContactForm
             onSave={(contact: Contact) => {
               localStorage.setItem(
                 'contacts',
                 JSON.stringify([...parsedContacts, contact]),
               )
-              setIsAddingNewContact(false)
+              setMode('placeholder')
             }}
           />
         )}
 
-        {!isAddingNewContact && (
+        {mode === 'transaction' && selectedContact && (
+          <TransactionForm contact={selectedContact} />
+        )}
+
+        {mode === 'placeholder' && (
           <div className="work-area-placeholder">
             Select a contact or add a new one to begin.
           </div>

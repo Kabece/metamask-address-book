@@ -1,24 +1,25 @@
+import AvatarPlaceholder from 'src/components/avatarPlaceholder/avatarPlaceholder.presenter'
+
 import './contactList.styles.css'
 
-const getInitials = (name: string) =>
-  name
-    .split(' ')
-    .map((word: string) => word[0].toUpperCase())
-    .slice(0, 2)
-
 export interface Contact {
-  name: string
-  address: string
+  readonly name: string
+  readonly address: string
 }
 
 interface Props {
-  contacts: Contact[]
-  onAddNewContact: () => void
+  readonly contacts: Contact[]
+  readonly onAddNewContact: () => void
+  readonly onSelectContact: (contact: Contact) => void
 }
 
-const ContactsList = ({ contacts, onAddNewContact }: Props): JSX.Element => (
-  <div>
-    <h1 className="contact-list--header">Address Book</h1>
+const ContactsList = ({
+  contacts,
+  onAddNewContact,
+  onSelectContact,
+}: Props): JSX.Element => (
+  <div className="contact-list">
+    <h1>Address Book</h1>
 
     <button
       type="button"
@@ -28,14 +29,18 @@ const ContactsList = ({ contacts, onAddNewContact }: Props): JSX.Element => (
       <div>New Contact</div>
     </button>
 
-    <div>
+    <div className="contact-list--contacts">
       {contacts.map((contact: Contact) => (
-        <div key={contact.name} className="contact-card">
-          <div className="contact-card--initials">
-            {getInitials(contact.name)}
-          </div>
+        <button
+          key={contact.name}
+          className="contact-card"
+          onClick={() => {
+            onSelectContact(contact)
+          }}
+          type="button">
+          <AvatarPlaceholder name={contact.name} />
           <span className="contact-card--name">{contact.name}</span>
-        </div>
+        </button>
       ))}
     </div>
   </div>

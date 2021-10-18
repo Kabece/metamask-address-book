@@ -15,7 +15,7 @@ const SignIn = (): JSX.Element => {
         src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/256px-MetaMask_Fox.svg.png"
       />
 
-      <h1 className="sign-in--title">Crypto address book</h1>
+      <h1>Crypto address book</h1>
       <p className="sign-in--text">
         The easiest and quickest way to manage and pay your contacts. <br />{' '}
         Connect yout wallet to begin.

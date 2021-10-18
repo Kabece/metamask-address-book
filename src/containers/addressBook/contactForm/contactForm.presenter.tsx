@@ -1,12 +1,13 @@
 import * as React from 'react'
 
 import Button from 'src/components/button/button.presenter'
+import Input from 'src/components/input/input.presenter'
 import type { Contact } from '../contactsList/contactsList.presenter'
 
 import './contactForm.styles.css'
 
 interface Props {
-  onSave: (contact: Contact) => void
+  readonly onSave: (contact: Contact) => void
 }
 
 const ContactForm = ({ onSave }: Props): JSX.Element => {
@@ -21,30 +22,26 @@ const ContactForm = ({ onSave }: Props): JSX.Element => {
         onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
           event.preventDefault()
         }}
-        className="contact-form">
-        <label htmlFor="name" className="contact-form--input">
-          <span>Name</span>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setName(event.target.value)
-            }
-          />
-        </label>
+        className="contact-form--form">
+        <Input
+          label="Name"
+          id="name"
+          type="text"
+          value={name}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setName(event.target.value)
+          }}
+        />
 
-        <label htmlFor="address" className="contact-form--input">
-          <span>Address</span>
-          <input
-            type="text"
-            id="address"
-            value={address}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              setAddress(event.target.value)
-            }
-          />
-        </label>
+        <Input
+          label="Address"
+          id="address"
+          type="text"
+          value={address}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setAddress(event.target.value)
+          }}
+        />
 
         <Button
           label="Save"

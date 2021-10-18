@@ -1,0 +1,11 @@
+.avatar-placeholder {
+  background-color: #8a96aa;
+  border-radius: 45px;
+  margin-right: 1em;
+  width: 3em;
+  height: 3em;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
