@@ -4,23 +4,43 @@ import Button from 'src/components/button/button.presenter'
 import Input from 'src/components/input/input.presenter'
 import type { Contact } from '../contactsList/contactsList.presenter'
 
+import { validateForm } from './contactForm.helper'
 import './contactForm.styles.css'
 
 interface Props {
   readonly isEditMode?: boolean
-  readonly contact?: Contact
+  readonly contacts?: Contact[]
+  readonly selectedContact?: Contact
   readonly onSave: (contact: Contact) => void
   readonly onDelete?: () => void
 }
 
 const ContactForm = ({
   isEditMode,
-  contact,
+  contacts,
+  selectedContact,
   onSave,
   onDelete,
 }: Props): JSX.Element => {
-  const [name, setName] = React.useState(contact?.name ?? '')
-  const [address, setAddress] = React.useState(contact?.address ?? '')
+  const [editedContact, setEditedContact] = React.useState(
+    selectedContact ?? {
+      name: '',
+      address: '',
+    },
+  )
+  const [initialContact] = React.useState(selectedContact)
+  const [isDirtyMap, setIsDirtyMap] = React.useState({
+    name: false,
+    address: false,
+  })
+
+  const formErrors = validateForm(
+    editedContact,
+    isDirtyMap,
+    !!isEditMode,
+    initialContact,
+    contacts,
+  )
 
   return (
     <div className="contact-form--container">
@@ -37,9 +57,17 @@ const ContactForm = ({
           label="Name"
           id="name"
           type="text"
-          value={name}
+          value={editedContact.name}
+          error={formErrors.name}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setName(event.target.value)
+            setEditedContact({
+              name: event.target.value,
+              address: editedContact.address,
+            })
+            setIsDirtyMap({
+              name: true,
+              address: isDirtyMap.address,
+            })
           }}
         />
 
@@ -47,9 +75,17 @@ const ContactForm = ({
           label="Address"
           id="address"
           type="text"
-          value={address}
+          value={editedContact.address}
+          error={formErrors.address}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setAddress(event.target.value)
+            setEditedContact({
+              name: editedContact.name,
+              address: event.target.value,
+            })
+            setIsDirtyMap({
+              name: isDirtyMap.name,
+              address: true,
+            })
           }}
         />
 
@@ -68,8 +104,11 @@ const ContactForm = ({
 
           <Button
             actionType="primary"
+            isDisabled={formErrors.isSaveDisabled}
             onClick={() => {
-              onSave({ name, address })
+              if (editedContact) {
+                onSave(editedContact)
+              }
             }}>
             Save
           </Button>

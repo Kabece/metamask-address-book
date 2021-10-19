@@ -52,7 +52,7 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
           type="number"
           value={amount}
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setAmount(Number.parseFloat(event.target.value))
+            setAmount(Number.parseFloat(event.target.value) ?? 0)
           }}
         />
 

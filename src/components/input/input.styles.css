@@ -15,7 +15,20 @@
   border: 1px solid #8da9c4;
 }
 
+.input__error > input {
+  border-color: red;
+}
+
 .input > span {
-  margin-left: 0.5em;
+  margin-left: 0.8em;
   font-size: 0.8em;
+}
+
+.input__error > span:nth-of-type(2) {
+  color: red;
+}
+
+.input__error > span:nth-of-type(2) {
+  margin-top: 0.2em;
+  font-size: 0.7em;
 }

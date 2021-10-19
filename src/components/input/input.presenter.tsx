@@ -7,13 +7,31 @@ interface Props {
   readonly id: string
   readonly type: 'text' | 'number'
   readonly value: string | number
+  readonly error?: string
   readonly onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  readonly onBlur?: () => void
 }
 
-const Input = ({ label, id, value, type, onChange }: Props): JSX.Element => (
-  <label htmlFor={id} className="input">
+const Input = ({
+  label,
+  id,
+  value,
+  type,
+  error,
+  onChange,
+  onBlur,
+}: Props): JSX.Element => (
+  <label htmlFor={id} className={`input ${error ? 'input__error' : ''}`}>
     <span>{label}</span>
-    <input type={type} id={id} value={value} onChange={onChange} />
+    <input
+      type={type}
+      id={id}
+      value={value}
+      onChange={onChange}
+      required={!!error}
+      onBlur={onBlur}
+    />
+    {error && <span>{error}</span>}
   </label>
 )
 

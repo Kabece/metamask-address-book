@@ -46,6 +46,7 @@ const AddressBook = (): JSX.Element => {
       <div className="address-book--right">
         {mode === 'add' && (
           <ContactForm
+            contacts={parsedContacts}
             onSave={(contact: Contact) => {
               localStorage.setItem(
                 'contacts',
@@ -61,7 +62,8 @@ const AddressBook = (): JSX.Element => {
         {mode === 'edit' && (
           <ContactForm
             isEditMode
-            contact={selectedContact}
+            contacts={parsedContacts}
+            selectedContact={selectedContact}
             onSave={(contact: Contact) => {
               localStorage.setItem(
                 'contacts',
