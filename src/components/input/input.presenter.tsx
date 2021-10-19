@@ -31,7 +31,7 @@ const Input = ({
       required={!!error}
       onBlur={onBlur}
     />
-    {error && <span>{error}</span>}
+    <span>{error}</span>
   </label>
 )
 
