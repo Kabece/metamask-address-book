@@ -15,3 +15,44 @@
 .contact-form--form--actions > button:first-of-type {
   margin-bottom: 1em;
 }
+
+.contact-form--address-type-switch {
+  display: flex;
+  border: 1px solid #f15a29;
+  border-radius: 15px;
+}
+
+.contact-form--address-type-switch > button {
+  padding: 0.4em 0.8em;
+  width: 50%;
+}
+
+.contact-form--address-type-switch > button:hover {
+  color: white;
+  background-color: #f15a29;
+  transition: background-color 300ms, color 200ms ease-in-out;
+}
+
+.contact-form--address-type-switch > button:first-of-type {
+  border-right: 1px solid #f15a29;
+}
+
+.contact-form--address-type-switch > button:first-of-type {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.contact-form--address-type-switch > button:nth-of-type(2) {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.contact-form--address-type-switch.address > button:first-of-type {
+  background-color: #f15a29;
+  color: white;
+}
+
+.contact-form--address-type-switch.ens > button:nth-of-type(2) {
+  background-color: #f15a29;
+  color: white;
+}

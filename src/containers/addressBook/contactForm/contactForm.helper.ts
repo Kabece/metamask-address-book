@@ -2,16 +2,17 @@ import { utils } from 'ethers'
 
 import type { Contact } from '../contactsList/contactsList.presenter'
 
-interface FormErrors {
+export interface FormErrors {
   readonly name?: string
   readonly address?: string
+  readonly ensName?: string
   readonly isSaveDisabled: boolean
 }
 
 export const validateForm = (
   editedContact: Contact,
   isDirtyMap: { [Property in keyof Contact]: boolean },
-  isEditMode: boolean,
+  formMode: 'add' | 'edit',
   initialContact?: Contact,
   allContacts?: Contact[],
   // eslint-disable-next-line sonarjs/cognitive-complexity
@@ -29,7 +30,7 @@ export const validateForm = (
     }
   }
 
-  // If fields are empty, return error messages
+  // If name is empty disable saving and show error message if form dirty
   if (editedContact.name === '') {
     formErrors = {
       ...formErrors,
@@ -41,13 +42,27 @@ export const validateForm = (
     }
   }
 
-  if (editedContact.address === '') {
+  if (isDirtyMap.address && editedContact.address === '') {
     formErrors = {
       ...formErrors,
       address:
-        isDirtyMap.address && editedContact.address === ''
-          ? 'Please enter an address'
-          : undefined,
+        editedContact.address === '' ? 'Please enter an address' : undefined,
+      isSaveDisabled: true,
+    }
+  }
+
+  if (isDirtyMap.ensName && editedContact.ensName === '') {
+    formErrors = {
+      ...formErrors,
+      ensName:
+        editedContact.ensName === '' ? 'Please enter an ENS name' : undefined,
+      isSaveDisabled: true,
+    }
+  }
+
+  if (editedContact.address === '' && editedContact.ensName === '') {
+    formErrors = {
+      ...formErrors,
       isSaveDisabled: true,
     }
   }
@@ -66,7 +81,7 @@ export const validateForm = (
   }
 
   // If the form has not changed, disable saving
-  if (!isDirtyMap.name && !isDirtyMap.address) {
+  if (!isDirtyMap.name && !isDirtyMap.address && !isDirtyMap.ensName) {
     formErrors = {
       ...formErrors,
       isSaveDisabled: true,
@@ -75,9 +90,10 @@ export const validateForm = (
 
   // If the edit form is back to initial values, disable savings
   if (
-    isEditMode &&
+    formMode === 'edit' &&
     editedContact.name === initialContact?.name &&
-    editedContact.address === initialContact?.address
+    editedContact.address === initialContact?.address &&
+    editedContact.ensName === initialContact?.ensName
   ) {
     formErrors = {
       ...formErrors,

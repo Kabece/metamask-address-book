@@ -1,4 +1,5 @@
 import * as React from 'react'
+import classNames from 'classnames'
 
 import './button.styles.css'
 
@@ -18,7 +19,9 @@ const Button = ({
   onClick,
 }: Props): JSX.Element => (
   <button
-    className={`btn btn--${actionType} ${isDisabled ? 'btn_disabled' : ''}`}
+    className={classNames('btn', `btn--${actionType}`, {
+      btn__disabled: isDisabled,
+    })}
     onClick={onClick}
     type="button"
     disabled={isDisabled}>

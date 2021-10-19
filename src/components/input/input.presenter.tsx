@@ -9,7 +9,6 @@ interface Props {
   readonly value: string | number
   readonly error?: string
   readonly onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  readonly onBlur?: () => void
 }
 
 const Input = ({
@@ -19,7 +18,6 @@ const Input = ({
   type,
   error,
   onChange,
-  onBlur,
 }: Props): JSX.Element => (
   <label htmlFor={id} className={`input ${error ? 'input__error' : ''}`}>
     <span>{label}</span>
@@ -29,7 +27,6 @@ const Input = ({
       value={value}
       onChange={onChange}
       required={!!error}
-      onBlur={onBlur}
     />
     <span>{error}</span>
   </label>

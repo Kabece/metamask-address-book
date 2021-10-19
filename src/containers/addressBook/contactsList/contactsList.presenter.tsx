@@ -6,6 +6,7 @@ import './contactList.styles.css'
 export interface Contact {
   readonly name: string
   readonly address: string
+  readonly ensName?: string
 }
 
 interface Props {

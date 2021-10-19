@@ -28,31 +28,6 @@
   flex-direction: column;
 }
 
-.transaction-form--mining-container {
-  display: flex;
-  margin-top: 1em;
-  align-items: center;
-}
-
-.transaction-form--mining-loader {
-  border: 2px solid #8da9c4;
-  border-top: 2px solid #f15a29;
-  border-radius: 50%;
-  width: 0.8em;
-  height: 0.8em;
-  animation: spin 2s linear infinite;
-  margin-right: 0.5em;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 .transaction-form--edit {
   text-align: right;
 }

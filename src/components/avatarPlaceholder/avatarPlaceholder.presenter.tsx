@@ -7,7 +7,7 @@ interface Props {
 const getInitials = (name: string) =>
   name
     .split(' ')
-    .map((word: string) => word[0].toUpperCase())
+    .map((word: string) => word[0]?.toUpperCase())
     .slice(0, 2)
 
 const AvatarPlaceholder = ({ name }: Props): JSX.Element => (

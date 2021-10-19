@@ -5,6 +5,7 @@ import { utils } from 'ethers'
 import AvatarPlaceholder from 'src/components/avatarPlaceholder/avatarPlaceholder.presenter'
 import Input from 'src/components/input/input.presenter'
 import Button from 'src/components/button/button.presenter'
+import Loader from 'src/components/loader/loader.presenter'
 
 import { validateForm } from './transactionForm.helper'
 import type { Contact } from '../contactsList/contactsList.presenter'
@@ -83,12 +84,7 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
         </Button>
       </form>
 
-      {isMining && (
-        <div className="transaction-form--mining-container">
-          <div className="transaction-form--mining-loader" />
-          <span>Transaction in progress...</span>
-        </div>
-      )}
+      {isMining && <Loader text="Mining in progress..." />}
     </div>
   )
 }

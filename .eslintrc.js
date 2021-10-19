@@ -77,5 +77,6 @@ module.exports = {
     '@typescript-eslint/no-shadow': 'error',
 
     'react/react-in-jsx-scope': 'off',
+    'sonarjs/cognitive-complexity': ['error', 20],
   },
 }
