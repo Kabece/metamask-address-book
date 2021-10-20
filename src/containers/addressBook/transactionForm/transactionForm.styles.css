@@ -31,3 +31,12 @@
 .transaction-form--edit {
   text-align: right;
 }
+
+.transaction-form--fee {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8em;
+  height: 1.5em;
+  margin-bottom: 1.5em;
+}

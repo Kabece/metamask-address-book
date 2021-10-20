@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import ContactsList from './contactsList/contactsList.presenter'
-import ContactForm from './contactForm/contactForm.presenter'
+import ContactForm from './contactForm/contactForm.container'
 import TransactionForm from './transactionForm/transactionForm.container'
 import type { Contact } from './contactsList/contactsList.presenter'
 
@@ -97,6 +97,7 @@ const AddressBook = (): JSX.Element => {
 
         {mode === 'transaction' && selectedContact && (
           <TransactionForm
+            key={selectedContact.name}
             contact={selectedContact}
             onEditContact={() => {
               setMode('edit')

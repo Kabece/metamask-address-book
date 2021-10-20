@@ -1,7 +1,7 @@
 import './loader.styles.css'
 
 interface Props {
-  readonly text: string
+  readonly text?: string
 }
 
 const Loader = ({ text }: Props): JSX.Element => (
