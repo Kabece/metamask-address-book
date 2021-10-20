@@ -106,7 +106,7 @@ const AddressBook = (): JSX.Element => {
         )}
 
         {mode === 'placeholder' && (
-          <div className="work-area-placeholder">
+          <div className="address-book--right--placeholder">
             Select a contact or add a new one to begin.
           </div>
         )}

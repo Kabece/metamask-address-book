@@ -36,7 +36,7 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
   const { sendTransaction, state } = useSendTransaction()
   const { account } = useEthers()
   // It's correct
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unnecessary-type-assertion
   const ethPrice: string | undefined = useCoingeckoPrice('ethereum', 'nzd') as
     | string
     | undefined
@@ -128,23 +128,27 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
             </div>
           )}
         </div>
-        <Button
-          actionType="primary"
-          isDisabled={isMining || formErrors.isSendDisabled}
-          onClick={() => {
-            setIsMining(true)
-            if (amount) {
-              void sendTransaction({
-                to: contact.address,
-                value: utils.parseEther(amount.toString()),
-              })
-            }
-          }}>
-          Send
-        </Button>
+        <div>
+          <Button
+            actionType="primary"
+            isDisabled={isMining || formErrors.isSendDisabled}
+            onClick={() => {
+              setIsMining(true)
+              if (amount) {
+                void sendTransaction({
+                  to: contact.address,
+                  value: utils.parseEther(amount.toString()),
+                })
+              }
+            }}>
+            Send
+          </Button>
+        </div>
       </form>
 
-      {isMining && <Loader text="Mining in progress..." />}
+      <div className="transaction-form--mining-loader">
+        {isMining && <Loader text="Mining in progress..." />}
+      </div>
     </div>
   )
 }

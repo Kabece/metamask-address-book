@@ -4,19 +4,25 @@
   align-items: center;
   margin-top: 5rem;
   padding: 2em 2em;
-  /* height: 100%; */
+  border-radius: 30px;
+  background-color: #cbe1cb;
+  border-radius: 30px;
 }
 
 .address-book--left {
   padding-right: 1.5em;
-  border-right: 1px solid black;
-  height: 100%;
+  border-right: 1px solid #606776;
+  height: 60vh;
+  width: 30%;
 }
 
 .address-book--right {
   height: 100%;
+  width: 50%;
 }
 
-.work-area-placeholder {
+.address-book--right--placeholder {
   font-weight: 300;
+  text-align: center;
+  margin-left: 1em;
 }

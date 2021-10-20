@@ -213,7 +213,9 @@ Props): JSX.Element => {
             Save
           </Button>
 
-          {isLoadingEns && <Loader text="Checking ENS name" />}
+          <div className="contact-form--loader">
+            {isLoadingEns && <Loader text="Checking ENS name" />}
+          </div>
         </div>
       </form>
     </div>

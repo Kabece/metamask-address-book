@@ -6,6 +6,7 @@ body {
   margin: 0;
   font-family: 'Roboto', sans-serif;
   color: #606776;
+  background-color: #f7f3f5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -39,10 +40,8 @@ input[type='number'] {
 }
 
 .main {
-  width: 60vw;
+  width: 50vw;
   height: 60vh;
   margin: 0 auto;
-  background-color: #eef4ed;
-  border-radius: 30px;
   position: relative;
 }

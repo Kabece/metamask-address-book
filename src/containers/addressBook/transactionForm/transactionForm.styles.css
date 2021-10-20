@@ -4,6 +4,7 @@
   justify-content: flex-start;
   align-items: center;
   height: 100%;
+  width: 100%;
 }
 
 .transaction-form--address {
@@ -26,6 +27,8 @@
 .transaction-form--form {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .transaction-form--edit {
@@ -39,4 +42,14 @@
   font-size: 0.8em;
   height: 1.5em;
   margin-bottom: 1.5em;
+}
+
+.transaction-form--mining-loader {
+  margin-top: 1em;
+  height: 3em;
+  font-size: 0.8em;
+}
+
+.transaction-form--mining-loader > div {
+  margin-top: 0;
 }

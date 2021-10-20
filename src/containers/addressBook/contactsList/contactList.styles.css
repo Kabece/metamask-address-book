@@ -4,6 +4,10 @@
   flex-direction: column;
 }
 
+.contact-list h1 {
+  text-align: center;
+}
+
 .contact-list--new-contact {
   display: flex;
   align-items: center;
@@ -14,6 +18,7 @@
 
 .contact-list--new-contact:hover {
   cursor: pointer;
+  color: #474747;
 }
 
 .contact-list--new-contact > div:first-child {
@@ -22,16 +27,8 @@
   font-weight: 100;
 }
 
-.contact-card {
-  display: flex;
-  align-items: center;
-  margin: 1em 0;
-  background: none;
-  border: none;
-}
-
-.contact-card:hover {
-  cursor: pointer;
+.contact-list--contacts > button:hover span {
+  color: #474747;
 }
 
 .contact-card--name {
@@ -40,7 +37,6 @@
 
 .contact-list--contacts {
   overflow: auto;
-  height: 40vh;
 }
 
 .contact-list--contacts > button {

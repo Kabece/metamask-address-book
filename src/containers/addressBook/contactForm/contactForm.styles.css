@@ -1,11 +1,18 @@
 .contact-form--container {
   display: flex;
   flex-direction: column;
+  /* width: 100%; */
 }
 
 .contact-form--form {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  /* width: 100%; */
+}
+
+.contact-form--header {
+  text-align: center;
 }
 
 .contact-form--form--actions > button {
@@ -25,6 +32,8 @@
 .contact-form--address-type-switch > button {
   padding: 0.4em 0.8em;
   width: 50%;
+  background-color: #f7f3f5;
+  color: #f15a29;
 }
 
 .contact-form--address-type-switch > button:hover {
@@ -55,4 +64,14 @@
 .contact-form--address-type-switch.ens > button:nth-of-type(2) {
   background-color: #f15a29;
   color: white;
+}
+
+.contact-form--loader {
+  margin-top: 0.2em;
+  height: 1em;
+  font-size: 0.8em;
+}
+
+.contact-form--loader > div {
+  margin-top: 0;
 }
