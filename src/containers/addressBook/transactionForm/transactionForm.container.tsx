@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useMemo, useRef, useContext } from 'react'
 import { useSendTransaction, useEthers, useEtherBalance } from '@usedapp/core'
 import { useCoingeckoPrice } from '@usedapp/coingecko'
 import { utils } from 'ethers'
@@ -7,9 +7,14 @@ import AvatarPlaceholder from 'src/components/avatarPlaceholder/avatarPlaceholde
 import Input from 'src/components/input/input.presenter'
 import Button from 'src/components/button/button.presenter'
 import Loader from 'src/components/loader/loader.presenter'
+import { NotificationsContext } from 'src/app'
 
 import FeeEstimate from './feeEstimate/feeEstimate.presenter'
-import { validateForm, estimateTransactionFee } from './transactionForm.helper'
+import {
+  validateForm,
+  estimateTransactionFee,
+  notifyOnSuccessfulTransaction,
+} from './transactionForm.helper'
 import type { Fee, FormErrors } from './transactionForm.helper'
 import type { Contact } from '../contactsList/contactsList.presenter'
 import './transactionForm.styles.css'
@@ -24,8 +29,9 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
   const [isMining, setIsMining] = useState(false)
   const [isLoadingFee, setIsLoadingFee] = useState(false)
   const [fee, setFee] = useState<Fee | undefined>()
+  const notificationsContext = useContext(NotificationsContext)
 
-  const { sendTransaction, state } = useSendTransaction()
+  const { sendTransaction, state: transactionState } = useSendTransaction()
   const { account } = useEthers()
   const etherBalance = useEtherBalance(account)
   const ethPrice: string | undefined = useCoingeckoPrice('ethereum', 'nzd')
@@ -37,11 +43,22 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
   )
 
   useEffect(() => {
-    if (state.status !== 'Mining') {
+    if (transactionState.status === 'Success' && amount) {
+      notifyOnSuccessfulTransaction(amount, contact.name, notificationsContext)
+    }
+
+    if (transactionState.status === 'Exception') {
+      console.log('yo', transactionState.errorMessage)
+    }
+
+    if (transactionState.status !== 'Mining') {
       setIsMining(false)
       setAmount(0)
+      isDirty.current = false
     }
-  }, [state])
+    // We don't want those extra dependencies, it should run only on tx transactionState change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transactionState])
 
   useEffect(() => {
     void (async () => {
@@ -115,7 +132,7 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
       </form>
 
       <div className="transaction-form--mining-loader">
-        {isMining && <Loader text="Mining in progress..." />}
+        {isMining && <Loader text="Sending in progress..." />}
       </div>
     </div>
   )

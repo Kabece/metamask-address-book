@@ -1,15 +1,21 @@
-import { useState, useEffect, useReducer } from 'react'
+import { useState, useEffect, useReducer, useContext } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 
 import Button from 'src/components/button/button.presenter'
 import Input from 'src/components/input/input.presenter'
 import Loader from 'src/components/loader/loader.presenter'
-import type { Contact } from '../contactsList/contactsList.presenter'
+import { NotificationsContext } from 'src/app'
 
 import AddressArea from './addressArea/addressArea.presenter'
-import { validateForm, resolveEnsNameAddress } from './contactForm.helper'
+import {
+  validateForm,
+  resolveEnsNameAddress,
+  notifyOnSuccessfulSave,
+  notifyOnDelete,
+} from './contactForm.helper'
 import { reducer, getInitialState, actionCreators } from './contactForm.reducer'
 import type { FormErrors, FormMode } from './contactForm.reducer'
+import type { Contact } from '../contactsList/contactsList.presenter'
 import './contactForm.styles.css'
 
 interface Props {
@@ -35,6 +41,7 @@ const ContactForm = ({
   const [formErrors, setFormErrors] = useState<FormErrors>({
     isSaveDisabled: false,
   })
+  const notificationsContext = useContext(NotificationsContext)
 
   useEffect(() => {
     setFormErrors(
@@ -83,8 +90,9 @@ const ContactForm = ({
             <Button
               actionType="tertiary"
               onClick={() => {
-                if (onDelete) {
+                if (onDelete && selectedContact) {
                   onDelete()
+                  notifyOnDelete(selectedContact.name, notificationsContext)
                 }
               }}>
               Delete Contact
@@ -110,8 +118,10 @@ const ContactForm = ({
                           ...state.editedContact,
                           address,
                         })
+                        notifyOnSuccessfulSave(formMode, notificationsContext)
                       }
 
+                      // If ENS couldn't be resolved
                       setFormErrors({
                         ...formErrors,
                         ensName: 'Provided ENS name was not recognised',
@@ -122,6 +132,7 @@ const ContactForm = ({
                   )
                 } else {
                   onSave(state.editedContact)
+                  notifyOnSuccessfulSave(formMode, notificationsContext)
                 }
               }
             }}>

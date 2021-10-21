@@ -1,5 +1,7 @@
 import { utils, providers } from 'ethers'
 
+import type { NotificationsContextInterface } from 'src/app'
+
 import type { Contact } from '../contactsList/contactsList.presenter'
 import type { FormErrors, FormMode, IsDirtyMap } from './contactForm.reducer'
 
@@ -117,4 +119,30 @@ export const resolveEnsNameAddress = async (
     console.log('error while resolving ens name', error)
   }
   return undefined
+}
+
+export const notifyOnSuccessfulSave = (
+  formMode: FormMode,
+  notificationsContext?: NotificationsContextInterface,
+): void => {
+  if (notificationsContext?.setNotification) {
+    notificationsContext?.setNotification({
+      message: `Contact ${
+        formMode === 'edit' ? 'edited' : 'added'
+      } successfully`,
+      type: 'success',
+    })
+  }
+}
+
+export const notifyOnDelete = (
+  name: string,
+  notificationsContext?: NotificationsContextInterface,
+): void => {
+  if (notificationsContext?.setNotification) {
+    notificationsContext?.setNotification({
+      message: `${name} deleted from contacts`,
+      type: 'success',
+    })
+  }
 }

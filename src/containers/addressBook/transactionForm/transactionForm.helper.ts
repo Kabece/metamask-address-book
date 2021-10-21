@@ -1,5 +1,7 @@
 import { utils, providers, BigNumber } from 'ethers'
 
+import type { NotificationsContextInterface } from 'src/app'
+
 export interface Fee {
   eth: string
   nzd?: string
@@ -88,4 +90,17 @@ export const estimateTransactionFee = async (
   }
 
   return undefined
+}
+
+export const notifyOnSuccessfulTransaction = (
+  amount: number,
+  name: string,
+  notificationsContext?: NotificationsContextInterface,
+): void => {
+  if (notificationsContext?.setNotification) {
+    notificationsContext?.setNotification({
+      message: `Sent ${amount} ETH to ${name}`,
+      type: 'success',
+    })
+  }
 }

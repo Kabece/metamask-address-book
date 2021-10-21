@@ -14,11 +14,11 @@ import type { Contact } from '../../contactsList/contactsList.presenter'
 import './addressArea.styles.css'
 
 interface Props {
-  addressInputType: AddressInputType
-  selectedContact?: Contact
-  editedContact: Contact
-  formErrors: FormErrors
-  dispatch: Dispatch<Action>
+  readonly addressInputType: AddressInputType
+  readonly selectedContact?: Contact
+  readonly editedContact: Contact
+  readonly formErrors: FormErrors
+  readonly dispatch: Dispatch<Action>
 }
 const AddressArea = ({
   addressInputType,

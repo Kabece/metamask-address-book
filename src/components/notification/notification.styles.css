@@ -1,0 +1,31 @@
+.notification {
+  position: absolute;
+  z-index: 666;
+  top: -40%;
+  left: 38%;
+  padding: 0.6em 2em;
+  text-align: center;
+  border-radius: 15px;
+  animation-name: slidein;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+}
+
+.notification.success {
+  background-color: #a2cdc6;
+}
+
+@keyframes slidein {
+  0% {
+    top: -40%;
+  }
+  10% {
+    top: -12%;
+  }
+  90% {
+    top: -12%;
+  }
+  100% {
+    top: -40%;
+  }
+}

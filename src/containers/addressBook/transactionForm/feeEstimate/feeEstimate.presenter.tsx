@@ -3,8 +3,8 @@ import Loader from 'src/components/loader/loader.presenter'
 import { Fee } from '../transactionForm.helper'
 
 interface Props {
-  fee?: Fee
-  isLoadingFee: boolean
+  readonly fee?: Fee
+  readonly isLoadingFee: boolean
 }
 
 const FeeEstimate = ({ isLoadingFee, fee }: Props): JSX.Element => {
