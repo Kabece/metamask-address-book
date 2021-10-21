@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/metamask-address-book/static/css/main.9dcb93b2.chunk.css",
-    "main.js": "/metamask-address-book/static/js/main.9c176e2f.chunk.js",
-    "main.js.map": "/metamask-address-book/static/js/main.9c176e2f.chunk.js.map",
-    "runtime-main.js": "/metamask-address-book/static/js/runtime-main.0933a48f.js",
-    "runtime-main.js.map": "/metamask-address-book/static/js/runtime-main.0933a48f.js.map",
-    "static/js/2.1174222d.chunk.js": "/metamask-address-book/static/js/2.1174222d.chunk.js",
-    "static/js/2.1174222d.chunk.js.map": "/metamask-address-book/static/js/2.1174222d.chunk.js.map",
-    "static/js/3.8bc135bf.chunk.js": "/metamask-address-book/static/js/3.8bc135bf.chunk.js",
-    "static/js/3.8bc135bf.chunk.js.map": "/metamask-address-book/static/js/3.8bc135bf.chunk.js.map",
+    "main.css": "/metamask-address-book/static/css/main.f0882c86.chunk.css",
+    "main.js": "/metamask-address-book/static/js/main.8ab93ecf.chunk.js",
+    "main.js.map": "/metamask-address-book/static/js/main.8ab93ecf.chunk.js.map",
+    "runtime-main.js": "/metamask-address-book/static/js/runtime-main.f6b33176.js",
+    "runtime-main.js.map": "/metamask-address-book/static/js/runtime-main.f6b33176.js.map",
+    "static/js/2.a846f101.chunk.js": "/metamask-address-book/static/js/2.a846f101.chunk.js",
+    "static/js/2.a846f101.chunk.js.map": "/metamask-address-book/static/js/2.a846f101.chunk.js.map",
+    "static/js/3.ca64c315.chunk.js": "/metamask-address-book/static/js/3.ca64c315.chunk.js",
+    "static/js/3.ca64c315.chunk.js.map": "/metamask-address-book/static/js/3.ca64c315.chunk.js.map",
     "index.html": "/metamask-address-book/index.html",
-    "static/css/main.9dcb93b2.chunk.css.map": "/metamask-address-book/static/css/main.9dcb93b2.chunk.css.map",
-    "static/js/2.1174222d.chunk.js.LICENSE.txt": "/metamask-address-book/static/js/2.1174222d.chunk.js.LICENSE.txt"
+    "static/css/main.f0882c86.chunk.css.map": "/metamask-address-book/static/css/main.f0882c86.chunk.css.map",
+    "static/js/2.a846f101.chunk.js.LICENSE.txt": "/metamask-address-book/static/js/2.a846f101.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.0933a48f.js",
-    "static/js/2.1174222d.chunk.js",
-    "static/css/main.9dcb93b2.chunk.css",
-    "static/js/main.9c176e2f.chunk.js"
+    "static/js/runtime-main.f6b33176.js",
+    "static/js/2.a846f101.chunk.js",
+    "static/css/main.f0882c86.chunk.css",
+    "static/js/main.8ab93ecf.chunk.js"
   ]
 }
