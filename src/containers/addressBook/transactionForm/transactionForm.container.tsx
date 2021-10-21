@@ -1,80 +1,59 @@
-import * as React from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import { useSendTransaction, useEthers, useEtherBalance } from '@usedapp/core'
 import { useCoingeckoPrice } from '@usedapp/coingecko'
-import { utils, providers } from 'ethers'
+import { utils } from 'ethers'
 
 import AvatarPlaceholder from 'src/components/avatarPlaceholder/avatarPlaceholder.presenter'
 import Input from 'src/components/input/input.presenter'
 import Button from 'src/components/button/button.presenter'
 import Loader from 'src/components/loader/loader.presenter'
 
-import { validateForm } from './transactionForm.helper'
+import FeeEstimate from './feeEstimate/feeEstimate.presenter'
+import { validateForm, estimateTransactionFee } from './transactionForm.helper'
+import type { Fee, FormErrors } from './transactionForm.helper'
 import type { Contact } from '../contactsList/contactsList.presenter'
 import './transactionForm.styles.css'
-
-const etherscanProvider = new providers.EtherscanProvider(
-  'rinkeby',
-  // In prod would have to hide the API key better
-  process.env.REACT_APP_ETHERSCAN_API_KEY,
-)
 
 interface Props {
   readonly contact: Contact
   readonly onEditContact: () => void
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
-  const [amount, setAmount] = React.useState<number | undefined>()
-  const [isDirty, setIsDirty] = React.useState(false)
-  const [isMining, setIsMining] = React.useState(false)
-  const [isLoadingFee, setIsLoadingFee] = React.useState(false)
-  const [fee, setFee] = React.useState<
-    { eth: string; nzd?: string } | undefined
-  >()
+  const [amount, setAmount] = useState<number | undefined>()
+  const [isMining, setIsMining] = useState(false)
+  const [isLoadingFee, setIsLoadingFee] = useState(false)
+  const [fee, setFee] = useState<Fee | undefined>()
 
   const { sendTransaction, state } = useSendTransaction()
   const { account } = useEthers()
-  // It's correct
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unnecessary-type-assertion
-  const ethPrice: string | undefined = useCoingeckoPrice('ethereum', 'nzd') as
-    | string
-    | undefined
   const etherBalance = useEtherBalance(account)
-  const formErrors = validateForm(isDirty, amount, etherBalance)
+  const ethPrice: string | undefined = useCoingeckoPrice('ethereum', 'nzd')
 
-  React.useEffect(() => {
+  const isDirty = useRef(false)
+  const formErrors: FormErrors = useMemo(
+    () => validateForm(isDirty.current, amount, etherBalance),
+    [isDirty, amount, etherBalance],
+  )
+
+  useEffect(() => {
     if (state.status !== 'Mining') {
       setIsMining(false)
       setAmount(0)
     }
   }, [state])
 
-  React.useEffect(() => {
+  useEffect(() => {
     void (async () => {
       if (amount) {
         setIsLoadingFee(true)
-        try {
-          const estimatedGas = await etherscanProvider.estimateGas({
-            to: contact.address,
-            value: utils.parseEther(amount.toString()),
-          })
-          const gasPrice = await etherscanProvider.getGasPrice()
-          const transactionFee = utils.formatEther(estimatedGas.mul(gasPrice))
-          setFee({
-            eth: transactionFee,
-            nzd:
-              ethPrice &&
-              (Number.parseFloat(transactionFee) * Number.parseFloat(ethPrice))
-                .toFixed(2)
-                .toString(),
-          })
-          setIsLoadingFee(false)
-        } catch (error) {
-          // eslint-disable-next-line no-console
-          console.log('error while estimating gas', error)
-          setIsLoadingFee(false)
-        }
+        const transactionFee = await estimateTransactionFee(
+          amount,
+          contact.address,
+          ethPrice,
+        )
+        setFee(transactionFee)
+        setIsLoadingFee(false)
       }
     })()
   }, [amount, contact.address, ethPrice])
@@ -109,25 +88,14 @@ const TransactionForm = ({ contact, onEditContact }: Props): JSX.Element => {
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
             const newAmount = Number.parseFloat(event.target.value)
             setAmount(Number.isNaN(newAmount) ? undefined : newAmount)
-            setIsDirty(true)
+            isDirty.current = true
           }}
         />
+
         <div className="transaction-form--fee">
-          {fee === undefined && !isLoadingFee ? (
-            <span>Enter amount to see the estimated tx fee</span>
-          ) : (
-            <div>
-              {isLoadingFee ? (
-                <Loader text="Estimating tx fee... " />
-              ) : (
-                <span>
-                  Estimated tx fee: {fee?.eth.slice(0, 8)} ETH,{' '}
-                  {fee?.nzd && `$${fee.nzd} NZD`}
-                </span>
-              )}
-            </div>
-          )}
+          <FeeEstimate isLoadingFee={isLoadingFee} fee={fee} />
         </div>
+
         <div>
           <Button
             actionType="primary"

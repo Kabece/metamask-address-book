@@ -1,0 +1,43 @@
+.address-area--address-type-switch {
+  display: flex;
+  border: 1px solid #f15a29;
+  border-radius: 15px;
+}
+
+.address-area--address-type-switch > button {
+  padding: 0.4em 0.8em;
+  width: 50%;
+  background-color: #f7f3f5;
+  color: #f15a29;
+  padding: 0.5em 3em;
+}
+
+.address-area--address-type-switch > button:hover {
+  color: white;
+  background-color: #f15a29;
+  transition: background-color 300ms, color 200ms ease-in-out;
+}
+
+.address-area--address-type-switch > button:first-of-type {
+  border-right: 1px solid #f15a29;
+}
+
+.address-area--address-type-switch > button:first-of-type {
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+
+.address-area--address-type-switch > button:nth-of-type(2) {
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+.address-area--address-type-switch.address > button:first-of-type {
+  background-color: #f15a29;
+  color: white;
+}
+
+.address-area--address-type-switch.ens > button:nth-of-type(2) {
+  background-color: #f15a29;
+  color: white;
+}

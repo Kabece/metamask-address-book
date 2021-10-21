@@ -1,20 +1,15 @@
-import { utils } from 'ethers'
+import { utils, providers } from 'ethers'
 
 import type { Contact } from '../contactsList/contactsList.presenter'
-
-export interface FormErrors {
-  readonly name?: string
-  readonly address?: string
-  readonly ensName?: string
-  readonly isSaveDisabled: boolean
-}
+import type { FormErrors, FormMode, IsDirtyMap } from './contactForm.types'
 
 export const validateForm = (
   editedContact: Contact,
-  isDirtyMap: { [Property in keyof Contact]: boolean },
-  formMode: 'add' | 'edit',
+  isDirtyMap: IsDirtyMap,
+  formMode: FormMode,
   initialContact?: Contact,
   allContacts?: Contact[],
+  // It's more readable to have all these rules in one place
   // eslint-disable-next-line sonarjs/cognitive-complexity
 ): FormErrors => {
   let formErrors: FormErrors = {
@@ -42,6 +37,7 @@ export const validateForm = (
     }
   }
 
+  // If address is empty disable saving and show error message if form dirty
   if (isDirtyMap.address && editedContact.address === '') {
     formErrors = {
       ...formErrors,
@@ -51,6 +47,7 @@ export const validateForm = (
     }
   }
 
+  // If ensName is empty disable saving and show error message if form dirty
   if (isDirtyMap.ensName && editedContact.ensName === '') {
     formErrors = {
       ...formErrors,
@@ -60,6 +57,7 @@ export const validateForm = (
     }
   }
 
+  // Either address or ensName needs to be filled
   if (editedContact.address === '' && editedContact.ensName === '') {
     formErrors = {
       ...formErrors,
@@ -88,7 +86,7 @@ export const validateForm = (
     }
   }
 
-  // If the edit form is back to initial values, disable savings
+  // If the edit form is back to initial values, disable saving
   if (
     formMode === 'edit' &&
     editedContact.name === initialContact?.name &&
@@ -102,4 +100,21 @@ export const validateForm = (
   }
 
   return formErrors
+}
+
+export const resolveEnsNameAddress = async (
+  ensName: string,
+): Promise<string | undefined> => {
+  try {
+    const provider = new providers.EtherscanProvider(
+      'rinkeby',
+      // In prod would have to hide the API key better
+      process.env.REACT_APP_ETHERSCAN_API_KEY,
+    )
+    return provider.resolveName(ensName)
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log('error while resolving ens name', error)
+  }
+  return undefined
 }

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import { useState } from 'react'
 
 import ContactsList from './contactsList/contactsList.presenter'
 import ContactForm from './contactForm/contactForm.container'
@@ -17,10 +17,8 @@ const filterOutCurrentContact = (currentContact?: Contact) => (
 type Mode = 'add' | 'edit' | 'transaction' | 'placeholder'
 
 const AddressBook = (): JSX.Element => {
-  const [mode, setMode] = React.useState<Mode>('placeholder')
-  const [selectedContact, setSelectedContact] = React.useState<
-    Contact | undefined
-  >()
+  const [mode, setMode] = useState<Mode>('placeholder')
+  const [selectedContact, setSelectedContact] = useState<Contact | undefined>()
 
   const storedContacts = localStorage.getItem('contacts')
   const parsedContacts = storedContacts
