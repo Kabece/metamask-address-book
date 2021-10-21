@@ -106,6 +106,7 @@ export const validateForm = (
 
 export const resolveEnsNameAddress = async (
   ensName: string,
+  notificationsContext?: NotificationsContextInterface,
 ): Promise<string | undefined> => {
   try {
     const provider = new providers.EtherscanProvider(
@@ -115,8 +116,12 @@ export const resolveEnsNameAddress = async (
     )
     return provider.resolveName(ensName)
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.log('error while resolving ens name', error)
+    if (notificationsContext?.setNotification) {
+      notificationsContext?.setNotification({
+        message: `Something went wrong when resolving ENS name. Please try again.`,
+        type: 'error',
+      })
+    }
   }
   return undefined
 }

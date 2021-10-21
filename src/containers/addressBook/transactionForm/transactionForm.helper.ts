@@ -1,5 +1,10 @@
+import React, { useEffect, useContext } from 'react'
+import type { Dispatch, SetStateAction } from 'react'
 import { utils, providers, BigNumber } from 'ethers'
+import { useSendTransaction } from '@usedapp/core'
+import type { TransactionRequest } from '@ethersproject/abstract-provider'
 
+import { NotificationsContext } from 'src/app'
 import type { NotificationsContextInterface } from 'src/app'
 
 export interface Fee {
@@ -103,4 +108,65 @@ export const notifyOnSuccessfulTransaction = (
       type: 'success',
     })
   }
+}
+
+export const notifyOnFailedTransaction = (
+  message: string,
+  notificationsContext?: NotificationsContextInterface,
+): void => {
+  if (notificationsContext?.setNotification) {
+    notificationsContext?.setNotification({
+      message,
+      type: 'error',
+    })
+  }
+}
+
+/**
+ * A custom hook wrapping useSendTransaction from @usedapp/core
+ * with error handling.
+ */
+export const useSendTransactionWithErrorHandling = (
+  name: string,
+  setIsMining: Dispatch<SetStateAction<boolean>>,
+  setAmount: Dispatch<SetStateAction<number | undefined>>,
+  isDirty: React.MutableRefObject<boolean>,
+  amount?: number,
+): ((tr: TransactionRequest) => Promise<void>) => {
+  const { sendTransaction, state: transactionState } = useSendTransaction()
+  const notificationsContext = useContext(NotificationsContext)
+
+  useEffect(() => {
+    if (transactionState.status === 'Success' && amount) {
+      notifyOnSuccessfulTransaction(amount, name, notificationsContext)
+    }
+
+    if (
+      transactionState.status === 'Exception' &&
+      transactionState.errorMessage?.includes('User denied transaction')
+    ) {
+      notifyOnFailedTransaction(
+        `You're the boss. Transaction rejected.`,
+        notificationsContext,
+      )
+    }
+
+    if (transactionState.status === 'Fail') {
+      notifyOnFailedTransaction(
+        'Something went wrong. Please try again.',
+        notificationsContext,
+      )
+    }
+
+    if (transactionState.status !== 'Mining') {
+      setIsMining(false)
+      setAmount(0)
+      // eslint-disable-next-line no-param-reassign
+      isDirty.current = false
+    }
+    // We don't want those extra dependencies, it should run only on tx transactionState change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transactionState])
+
+  return sendTransaction
 }

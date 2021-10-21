@@ -111,27 +111,31 @@ const ContactForm = ({
                   state.editedContact.ensName
                 ) {
                   setIsLoadingEns(true)
-                  void resolveEnsNameAddress(state.editedContact.ensName).then(
-                    (address?: string) => {
-                      if (address) {
-                        onSave({
-                          ...state.editedContact,
-                          address,
-                        })
-                        notifyOnSuccessfulSave(formMode, notificationsContext)
-                      }
-
-                      // If ENS couldn't be resolved
-                      setFormErrors({
-                        ...formErrors,
-                        ensName: 'Provided ENS name was not recognised',
-                        isSaveDisabled: true,
+                  void resolveEnsNameAddress(
+                    state.editedContact.ensName,
+                    notificationsContext,
+                  ).then((address?: string) => {
+                    if (address) {
+                      onSave({
+                        ...state.editedContact,
+                        address,
                       })
-                      setIsLoadingEns(false)
-                    },
-                  )
+                      notifyOnSuccessfulSave(formMode, notificationsContext)
+                    }
+
+                    // If ENS couldn't be resolved
+                    setFormErrors({
+                      ...formErrors,
+                      ensName: 'Provided ENS name was not recognised',
+                      isSaveDisabled: true,
+                    })
+                    setIsLoadingEns(false)
+                  })
                 } else {
-                  onSave(state.editedContact)
+                  onSave({
+                    ...state.editedContact,
+                    ensName: undefined,
+                  })
                   notifyOnSuccessfulSave(formMode, notificationsContext)
                 }
               }

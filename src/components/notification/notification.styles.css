@@ -12,7 +12,14 @@
 }
 
 .notification.success {
-  background-color: #a2cdc6;
+  /* background-color: #a2cdc6; */
+  background-color: #6b9e86;
+  color: #f7f3f5;
+}
+
+.notification.error {
+  background-color: #cf4f62;
+  color: #f7f3f5;
 }
 
 @keyframes slidein {
