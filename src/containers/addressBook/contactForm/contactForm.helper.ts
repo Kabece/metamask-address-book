@@ -1,7 +1,7 @@
 import { utils, providers } from 'ethers'
 
 import type { Contact } from '../contactsList/contactsList.presenter'
-import type { FormErrors, FormMode, IsDirtyMap } from './contactForm.types'
+import type { FormErrors, FormMode, IsDirtyMap } from './contactForm.reducer'
 
 export const validateForm = (
   editedContact: Contact,

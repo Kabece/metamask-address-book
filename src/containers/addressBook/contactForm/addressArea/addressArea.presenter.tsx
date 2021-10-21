@@ -1,14 +1,15 @@
 import { Fragment } from 'react'
-import type { ChangeEvent, Dispatch, SetStateAction } from 'react'
+import type { ChangeEvent, Dispatch } from 'react'
 
 import Button from 'src/components/button/button.presenter'
 import Input from 'src/components/input/input.presenter'
 
+import { actionCreators } from '../contactForm.reducer'
 import type {
+  Action,
   FormErrors,
   AddressInputType,
-  IsDirtyMap,
-} from '../contactForm.types'
+} from '../contactForm.reducer'
 import type { Contact } from '../../contactsList/contactsList.presenter'
 import './addressArea.styles.css'
 
@@ -16,21 +17,15 @@ interface Props {
   addressInputType: AddressInputType
   selectedContact?: Contact
   editedContact: Contact
-  isDirtyMap: IsDirtyMap
   formErrors: FormErrors
-  setAddressInputType: Dispatch<SetStateAction<AddressInputType>>
-  setEditedContact: Dispatch<SetStateAction<Contact>>
-  setIsDirtyMap: Dispatch<SetStateAction<IsDirtyMap>>
+  dispatch: Dispatch<Action>
 }
 const AddressArea = ({
   addressInputType,
   selectedContact,
   editedContact,
-  isDirtyMap,
   formErrors,
-  setAddressInputType,
-  setEditedContact,
-  setIsDirtyMap,
+  dispatch,
 }: Props): JSX.Element => (
   <Fragment>
     {/* Button to switch between Address and ENS Name */}
@@ -38,30 +33,18 @@ const AddressArea = ({
       <Button
         actionType="link"
         onClick={() => {
-          setAddressInputType('address')
-          setEditedContact({
-            ...editedContact,
-            ensName: selectedContact?.ensName ?? '',
-          })
-          setIsDirtyMap({
-            ...isDirtyMap,
-            ensName: false,
-          })
+          dispatch(
+            actionCreators.selectAddressInputType('address', selectedContact),
+          )
         }}>
         Address
       </Button>
       <Button
         actionType="link"
         onClick={() => {
-          setAddressInputType('ens')
-          setEditedContact({
-            ...editedContact,
-            address: selectedContact?.address ?? '',
-          })
-          setIsDirtyMap({
-            ...isDirtyMap,
-            address: false,
-          })
+          dispatch(
+            actionCreators.selectAddressInputType('ensName', selectedContact),
+          )
         }}>
         ENS
       </Button>
@@ -75,19 +58,12 @@ const AddressArea = ({
         value={editedContact.address}
         error={formErrors.address}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setEditedContact({
-            ...editedContact,
-            address: event.target.value,
-          })
-          setIsDirtyMap({
-            ...isDirtyMap,
-            address: true,
-          })
+          dispatch(actionCreators.updateAddress(event.target.value))
         }}
       />
     )}
 
-    {addressInputType === 'ens' && (
+    {addressInputType === 'ensName' && (
       <Input
         label="ENS Name"
         id="ensName"
@@ -95,14 +71,7 @@ const AddressArea = ({
         value={editedContact.ensName ?? ''}
         error={formErrors.ensName}
         onChange={(event: ChangeEvent<HTMLInputElement>) => {
-          setEditedContact({
-            ...editedContact,
-            ensName: event.target.value,
-          })
-          setIsDirtyMap({
-            ...isDirtyMap,
-            ensName: true,
-          })
+          dispatch(actionCreators.updateEnsName(event.target.value))
         }}
       />
     )}

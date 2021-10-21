@@ -37,7 +37,7 @@
   color: white;
 }
 
-.address-area--address-type-switch.ens > button:nth-of-type(2) {
+.address-area--address-type-switch.ensName > button:nth-of-type(2) {
   background-color: #f15a29;
   color: white;
 }

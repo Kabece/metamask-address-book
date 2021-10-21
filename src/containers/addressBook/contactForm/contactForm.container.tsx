@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useReducer } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 
 import Button from 'src/components/button/button.presenter'
@@ -8,12 +8,8 @@ import type { Contact } from '../contactsList/contactsList.presenter'
 
 import AddressArea from './addressArea/addressArea.presenter'
 import { validateForm, resolveEnsNameAddress } from './contactForm.helper'
-import type {
-  FormErrors,
-  FormMode,
-  IsDirtyMap,
-  AddressInputType,
-} from './contactForm.types'
+import { reducer, getInitialState, actionCreators } from './contactForm.reducer'
+import type { FormErrors, FormMode } from './contactForm.reducer'
 import './contactForm.styles.css'
 
 interface Props {
@@ -31,20 +27,9 @@ const ContactForm = ({
   onSave,
   onDelete,
 }: Props): JSX.Element => {
-  const [editedContact, setEditedContact] = useState<Contact>(
-    selectedContact ?? {
-      name: '',
-      address: '',
-      ensName: '',
-    },
-  )
-  const [isDirtyMap, setIsDirtyMap] = useState<IsDirtyMap>({
-    name: false,
-    address: false,
-    ensName: false,
-  })
-  const [addressInputType, setAddressInputType] = useState<AddressInputType>(
-    'address',
+  const [state, dispatch] = useReducer(
+    reducer,
+    getInitialState(selectedContact),
   )
   const [isLoadingEns, setIsLoadingEns] = useState(false)
   const [formErrors, setFormErrors] = useState<FormErrors>({
@@ -54,14 +39,14 @@ const ContactForm = ({
   useEffect(() => {
     setFormErrors(
       validateForm(
-        editedContact,
-        isDirtyMap,
+        state.editedContact,
+        state.isDirtyMap,
         formMode,
         selectedContact,
         contacts,
       ),
     )
-  }, [editedContact, isDirtyMap, formMode, selectedContact, contacts])
+  }, [state, formMode, selectedContact, contacts])
 
   return (
     <div className="contact-form--container">
@@ -78,29 +63,19 @@ const ContactForm = ({
           label="Name"
           id="name"
           type="text"
-          value={editedContact.name}
+          value={state.editedContact.name}
           error={formErrors.name}
           onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            setEditedContact({
-              ...editedContact,
-              name: event.target.value,
-            })
-            setIsDirtyMap({
-              ...isDirtyMap,
-              name: true,
-            })
+            dispatch(actionCreators.updateName(event.target.value))
           }}
         />
 
         <AddressArea
-          addressInputType={addressInputType}
+          addressInputType={state.addressInputType}
           selectedContact={selectedContact}
-          editedContact={editedContact}
-          isDirtyMap={isDirtyMap}
+          editedContact={state.editedContact}
           formErrors={formErrors}
-          setAddressInputType={setAddressInputType}
-          setEditedContact={setEditedContact}
-          setIsDirtyMap={setIsDirtyMap}
+          dispatch={dispatch}
         />
 
         <div className="contact-form--form--actions">
@@ -120,16 +95,19 @@ const ContactForm = ({
             actionType="primary"
             isDisabled={formErrors.isSaveDisabled}
             onClick={() => {
-              if (editedContact) {
+              if (state.editedContact) {
                 // If using ENS Name we have to resolve it to check if it's valid
                 // In case of address, the validation is handled on type
-                if (addressInputType === 'ens' && editedContact.ensName) {
+                if (
+                  state.addressInputType === 'ensName' &&
+                  state.editedContact.ensName
+                ) {
                   setIsLoadingEns(true)
-                  void resolveEnsNameAddress(editedContact.ensName).then(
+                  void resolveEnsNameAddress(state.editedContact.ensName).then(
                     (address?: string) => {
                       if (address) {
                         onSave({
-                          ...editedContact,
+                          ...state.editedContact,
                           address,
                         })
                       }
@@ -143,7 +121,7 @@ const ContactForm = ({
                     },
                   )
                 } else {
-                  onSave(editedContact)
+                  onSave(state.editedContact)
                 }
               }
             }}>
