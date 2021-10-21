@@ -19,6 +19,13 @@ export const validateForm = (
     isSendDisabled: false,
   }
 
+  // If amount 0
+  if (amount === 0) {
+    formErrors = {
+      isSendDisabled: true,
+    }
+  }
+
   // If amount empty
   if (isDirty && !amount) {
     formErrors = {

@@ -4,7 +4,8 @@
     "name": "Chris Czurylo",
     "email": "chris.b.czurylo@gmail.com"
   },
-  "version": "0.1.0",
+  "homepage": "https://kabece.github.io/metamask-address-book",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "react-scripts start",
@@ -12,7 +13,9 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "tsc": "node ./node_modules/typescript/bin/tsc",
-    "lint": "node ./node_modules/eslint/bin/eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "node ./node_modules/eslint/bin/eslint . --ext .js,.jsx,.ts,.tsx",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@ethersproject/units": "5.4.0",
@@ -42,6 +45,7 @@
     "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-sonarjs": "^0.6.0",
+    "gh-pages": "^3.2.3",
     "prettier": "2.2.1"
   },
   "resolutions": {
